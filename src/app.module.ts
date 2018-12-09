@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Article } from './article.entity';
+import { CQRSModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { Article } from './article.entity';
       synchronize: true,
     }),
     TypeOrmModule.forFeature([Article]),
+    CQRSModule,
   ],
   controllers: [AppController],
   providers: [AppService],
