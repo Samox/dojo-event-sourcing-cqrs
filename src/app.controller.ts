@@ -1,4 +1,4 @@
-import { Get, Controller, Post, Body } from '@nestjs/common';
+import { Get, Controller, Post, Body, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ArticleDTO } from './article.dto';
 import { Article } from './article.entity';
@@ -15,6 +15,11 @@ export class AppController {
   @Get('/articles')
   getArticles(): Promise<Article[]> {
     return this.appService.getAllArticles();
+  }
+
+  @Get('/articles/:id')
+  getArticle(@Param() params): Promise<Article> {
+    return this.appService.getArticle(params.id);
   }
 
   @Post('/articles')
