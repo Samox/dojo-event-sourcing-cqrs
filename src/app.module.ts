@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Article } from './article.entity';
-import { CQRSModule } from '@nestjs/cqrs';
+import { CQRSModule, CommandBus } from '@nestjs/cqrs';
+import { CreateArticleHandler } from './commands/handlers/create-article.handler';
+import { ModuleRef } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -21,6 +23,15 @@ import { CQRSModule } from '@nestjs/cqrs';
     CQRSModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CreateArticleHandler],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(
+    private readonly commandBus$: CommandBus,
+    private readonly moduleRef: ModuleRef,
+  ) {}
+  onModuleInit() {
+    this.commandBus$.setModuleRef(this.moduleRef);
+    this.commandBus$.register([CreateArticleHandler]);
+  }
+}
