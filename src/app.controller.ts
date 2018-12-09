@@ -1,6 +1,7 @@
 import { Get, Controller, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ArticleDTO } from './article.dto';
+import { Article } from './article.entity';
 
 @Controller()
 export class AppController {
@@ -12,8 +13,8 @@ export class AppController {
   }
 
   @Get('/articles')
-  getArticle(): ArticleDTO {
-    return { name: 'Mon premier article', content: 'Croute' };
+  getArticles(): Promise<Article[]> {
+    return this.appService.getAllArticles();
   }
 
   @Post('/articles')
