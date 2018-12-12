@@ -20,10 +20,7 @@ export class AppService {
 
   async storeArticle(articleDto: ArticleDTO): Promise<Article> {
     const createArticleCommand = new CreateArticleCommand(articleDto);
-    this.commandBus.execute(createArticleCommand);
-    const article = await this.articleRepository.create(articleDto);
-    await this.articleRepository.save(article);
-    return article;
+    return this.commandBus.execute(createArticleCommand);
   }
 
   async getAllArticles(): Promise<Article[]> {
