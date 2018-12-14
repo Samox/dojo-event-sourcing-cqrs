@@ -20,4 +20,10 @@ export class Article extends AggregateRoot {
 
   @Column()
   content: string;
+
+  onArticleCreated(event: ArticleCreated) {
+    this.id = event.aggregateId;
+    this.name = event.name;
+    this.content = event.content;
+  }
 }
