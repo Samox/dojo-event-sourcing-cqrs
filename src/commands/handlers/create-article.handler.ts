@@ -1,17 +1,15 @@
-import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
+import { ICommandHandler, CommandHandler, EventPublisher } from '@nestjs/cqrs';
 import { CreateArticleCommand } from '../implementations/create-article.command';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article, createArticle } from '../../article.entity';
-import { Repository } from 'typeorm';
 
 @CommandHandler(CreateArticleCommand)
 export class CreateArticleHandler implements ICommandHandler<CreateArticleCommand> {
-  constructor(
-    @InjectRepository(Article)
-    private readonly articleRepository: Repository<Article>,
-  ) {}
+  constructor(private readonly publisher: EventPublisher) {}
   async execute(command: CreateArticleCommand, resolve: (value?) => void) {
-    const article: Article = createArticle(command.articleDto);
+    let article: Article = createArticle(command.articleDto);
+    article = this.publisher.mergeObjectContext(article);
+    article.commit();
     resolve(article);
   }
 }
