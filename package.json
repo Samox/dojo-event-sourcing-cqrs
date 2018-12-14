@@ -23,12 +23,14 @@
     "@nestjs/core": "^5.4.0",
     "@nestjs/cqrs": "^5.1.1",
     "@nestjs/typeorm": "^5.2.2",
+    "@types/uuid": "^3.4.4",
     "pg": "^7.7.1",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.2.2",
     "typeorm": "^0.2.9",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@nestjs/testing": "^5.1.0",
