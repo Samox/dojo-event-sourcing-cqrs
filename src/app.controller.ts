@@ -23,9 +23,7 @@ export class AppController {
   }
 
   @Post('/articles')
-  async createArticle(
-    @Body() createArticleDto: ArticleDTO,
-  ): Promise<ArticleDTO> {
+  async createArticle(@Body() createArticleDto: ArticleDTO): Promise<ArticleDTO> {
     return this.appService.storeArticle(createArticleDto);
   }
 }

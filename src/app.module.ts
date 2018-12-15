@@ -7,6 +7,8 @@ import { CQRSModule, CommandBus, EventBus } from '@nestjs/cqrs';
 import { CreateArticleHandler } from './commands/handlers/create-article.handler';
 import { ModuleRef } from '@nestjs/core';
 import { EventSaga } from './article.saga';
+import { ArticleRepository } from './article.repository';
+import { Event } from './event.entity';
 
 @Module({
   imports: [
@@ -20,11 +22,11 @@ import { EventSaga } from './article.saga';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Article]),
+    TypeOrmModule.forFeature([Article, Event]),
     CQRSModule,
   ],
   controllers: [AppController],
-  providers: [AppService, CreateArticleHandler, EventSaga],
+  providers: [ArticleRepository, AppService, CreateArticleHandler, EventSaga],
 })
 export class AppModule implements OnModuleInit {
   constructor(
